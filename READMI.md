@@ -2,21 +2,26 @@
 # Análisis CTI: shinyhunte.red - Infraestructura oficial del grupo ShinyHunters (2026)
 
 > **Tipo de informe:** Investigación OSINT sobre dominio malicioso activo  
-> **Fecha:** Junio 2026  
-> **Autor:** KiraSecurity  
+> **Fecha:** 9 Junio 2026  
+> **Autor:** @Condor2026  
 > **TLP:** CLEAR  
-> **Estado:** ✅ CONFIRMADO - Infraestructura maliciosa activa
+> **Estado:** ✅ CONFIRMADO - Infraestructura maliciosa (actualmente caída)
 
 ---
 
 ## 📌 Resumen Ejecutivo
 
-El dominio **shinyhunte.red** ha sido identificado y confirmado como **infraestructura oficial del grupo de cibercriminales ShinyHunters** (también conocido como parte de la coalición SLSH). El sitio opera como plataforma de "prueba de vida" y extorsión, donde el grupo publica datos robados de sus víctimas y emite comunicados oficiales cuando sus otros dominios son incautados.
+El dominio **shinyhunte.red** ha sido identificado y confirmado como **infraestructura oficial del grupo de cibercriminales ShinyHunters** (también conocido como parte de la coalición SLSH). 
+El sitio operaba como plataforma de "prueba de vida" y extorsión, donde el grupo publica datos robados de sus víctimas y emite comunicados oficiales cuando sus otros dominios son incautados.
+
+**⚠️ Nota sobre disponibilidad:** El dominio `shinyhunte.red` se encontraba **activo durante el periodo de investigación (mayo-junio 2026)**. 
+Posteriormente, se ha verificado su caída mediante check-host y otras fuentes. Es común que este tipo de infraestructura maliciosa rote o sea derribada, y que el grupo reaparezca bajo nuevos dominios siguiendo el mismo patrón (`shinyhunte.*`).
 
 | Métrica | Valor |
 |---------|-------|
 | **Dominio** | shinyhunte.red |
-| **Estado** | Activo (al momento del análisis) |
+| **Estado actual** | ❌ Caído / Inactivo (verificado post-9 junio 2026) |
+| **Estado durante investigación** | Activo (mayo-junio 2026) |
 | **Grupo asociado** | ShinyHunters (UNC6040, SLSH) |
 | **Función** | Prueba de vida, extorsión, publicación de datos robados |
 | **Primer avistamiento** | Mayo 2026 |
@@ -32,6 +37,7 @@ El dominio **shinyhunte.red** ha sido identificado y confirmado como **infraestr
 4. **Correlación con amenazas conocidas** → Identificación de nodos compartidos con Killnet, CyberVolk, Lizard Squad
 5. **Confirmación por fuentes externas** → Verificación mediante inteligencia de amenazas (WatchGuard, Brave Search)
 6. **Documentación de IOCs** → Generación de indicadores para bloques y monitoreo
+7. **Verificación de caída** → Check-host y múltiples fuentes confirman dominio inactivo
 
 ---
 
@@ -111,7 +117,7 @@ La IP `185.199.111.153` (AS 54113, Fastly, Inc., US) es un nodo crítico que res
 
 ## 🔗 Correlación con otras amenazas
 
-Durante la investigación, se identificaron **nodos compartidos** con otras amenazas previamente documentadas por KiraSecurity:
+Durante la investigación, se identificaron **nodos compartidos** con otras amenazas previamente documentadas:
 
 | Amenaza | Evidencia en shinyhunte.red |
 |---------|----------------------------|
@@ -120,7 +126,7 @@ Durante la investigación, se identificaron **nodos compartidos** con otras amen
 | **Lizard Squad** | Infraestructura compartida |
 | **Botnets / Worms / Phishing** | Múltiples indicadores en los nodos del dominio |
 
-Esta correlación fue documentada por primera vez por KiraSecurity en la colección del **31 de mayo de 2026** titulada:
+Esta correlación fue documentada por primera vez en la colección del **31 de mayo de 2026** titulada:
 > *"Lizard Squad - Killnet - proxis killnet - Malwares, BOTNET, WORMS, PHISHING"*
 
 ---
@@ -129,7 +135,7 @@ Esta correlación fue documentada por primera vez por KiraSecurity en la colecci
 
 | Característica | Detalle |
 |----------------|---------|
-| **Alias** | UNC6040, UNC6395, Scattered LAPSUS$ Hunters (SLSH) |
+| **Alias** | UNC6040, UNC6395, Scattered LAPSUS$ Hunters (SLSH) | Spid3r, KromSec.
 | **Activo desde** | 2019 |
 | **Modelo** | Extortion-as-a-Service (EaaS) |
 | **Infraestructura** | Clearnet + TOR + Telegram |
@@ -139,7 +145,7 @@ Esta correlación fue documentada por primera vez por KiraSecurity en la colecci
 | Dominio | Estado |
 |---------|--------|
 | shinyhunte.rs | Suspendido (mayo 2026) |
-| shinyhunte.red | Activo (confirmado) |
+| shinyhunte.red | Caído (post-junio 2026) |
 
 ### Víctimas confirmadas en shinyhunte.red
 
@@ -222,11 +228,12 @@ shinygroup@onionmail.com
 
 ## 🎯 Conclusiones
 
-1. **shinyhunte.red es infraestructura oficial de ShinyHunters** - Confirmado por múltiples fuentes y por observación directa.
-2. **El dominio estaba activo** - Operaba como sitio de "prueba de vida" y extorsión en el momento del análisis.
-3. **Comparte infraestructura con otras amenazas** - Nodos de Killnet, CyberVolk y Lizard Squad presentes (documentado por KiraSecurity el 31/05/2026).
-4. **Patrón consistente** - El uso de dominios clearnet (.rs, .red) es un TTP documentado del grupo.
-5. **Alta rotación de activos** - Los certificados SSL cambiaron rápidamente y el dominio resolve a IPs de Cloudflare/Fastly para evadir bloqueos.
+1. **shinyhunte.red era infraestructura oficial de ShinyHunters** - Confirmado por múltiples fuentes y por observación directa.
+2. **El dominio estuvo activo** - Operaba como sitio de "prueba de vida" y extorsión durante el periodo de investigación.
+3. **Actualmente está caído** - Verificado mediante check-host y múltiples fuentes.
+4. **Compartía infraestructura con otras amenazas** - Nodos de Killnet, CyberVolk y Lizard Squad presentes.
+5. **Patrón consistente** - El uso de dominios clearnet (.rs, .red) es un TTP documentado del grupo.
+6. **Alta rotación de activos** - Los certificados SSL cambiaron rápidamente y el dominio resolvía a IPs de Cloudflare/Fastly para evadir bloqueos.
 
 ---
 
@@ -261,25 +268,267 @@ shinygroup@onionmail.com
 |-------|--------|
 | 2026-05-02 | Creación del dominio shinyhunte.red |
 | 2026-05-26 | Primer avistamiento público por Dominic Alvieri |
-| 2026-05-28 | KiraSecurity crea colecciones en VT (www.shinyhunte.red) |
-| 2026-05-31 | KiraSecurity documenta correlación con Killnet/CyberVolk/Lizard Squad |
-| 2026-06-09 | KiraSecurity crea graph "shinyhunte.red +NUDOS" y completa análisis |
-| 2026-06-09 | Confirmación final del caso |
+| 2026-05-28 | Creación de colecciones en VT (www.shinyhunte.red) |
+| 2026-05-31 | Documentación de correlación con Killnet/CyberVolk/Lizard Squad |
+| 2026-06-09 | Creación de graph "shinyhunte.red +NUDOS" y finalización del análisis |
+| Post-2026-06-09 | Verificación de caída del dominio mediante check-host |
 
 ---
 
-*Este informe forma parte del portafolio CTI de Condor2026. Para contacto profesional: [tu perfil de LinkedIn]*
+*Este informe forma parte del portafolio CTI de Condor2026.*
 
-*Caso cerrado: ✅ CONFIRMADO - Infraestructura maliciosa activa de ShinyHunters*
-```
+*Caso cerrado: ✅ CONFIRMADO - Infraestructura maliciosa de ShinyHunters (actualmente caída)*
+---
+ENDPOINT:
+
+def construir_base_osint():
+    estaticos = {
+        # ... otras entradas ...
+        "KromSec": {
+            "desc": "Grupo hacktivista pro-ruso y ucraniano, también involucrado en la venta de bases de datos. Colabora estrechamente con el colectivo Spid3r en campañas de 'ciberguerra' contra regímenes autoritarios (Irán, Rusia, Bielorrusia). Se le atribuye la venta de la base de datos del Ministerio de Industrias y Minas de Irán. Su líder, 'Spid3r', se presenta como un operativo de Anonymous.",
+            "aliases": ["Krom Security", "Krom_Sec", "AnonSpid3r", "Spid3r", "KromSec"],
+            "channels": ["Krom_Sec", "KromSecDatabase"],
+            "emails": [],
+            "phones": [],
+            "names": ["Spid3r"],
+            "location": [],
+            "services": ["Hacktivismo", "Data Breach", "DDoS", "BotNet", "Layers7", "Robo de Datos", "Bots Illegales", "Phishing-Malware "Venta de datos"],
+            "tools": [],
+            "hosting": ["t.me/Krom_Sec", "github.com/...", "twitter.com/KromSecurity"]
+        },
+        "Scattered LAPSUS$ Hunters": {
+            "desc": "Alianza de tres grupos cibercriminales: Scattered Spider, LAPSUS$ y ShinyHunters. Se especializan en el robo de datos y la extorsión masiva. Son conocidos por sus ataques de ingeniería social (vishing) y por ofrecer recompensas a insiders. Han colaborado con el Crimson Collective. A menudo operan bajo el alias 'SCATTERED SP1D3R HUNTERS' y forman parte de la red 'The Com'.",
+            "aliases": ["SLSH", "Scattered Spider", "KromSec", "kromsecurity", "AnonymousTurkey", "YourAnonSpider", "Spid3r", "Spid3r ihu", "spid3rcrypto", "Krom_Sec", "ShinyHunters", "Bling Libra", "UNC3944", "The Com", "Scattered LAPSUS$ Hunters", "SCATTERED SP1D3R HUNTERS", "SLSH", "The COM HQ", "shinyc0rp"],
+            "channels": ["scatteredlapsus", "slsh_ops", "shinyhunters", "blinglibra", "TheCom", "Anon collective Chat", "SiegedSec", "SLSH6", "sh1nygroup", "anoncollectivechat", "youranonspider"],
+            "webs": ["siegedsec.com", "siegedsec.locker", "siegedsec.ru", "shinyhunte.rs", "breachforums.hn"],
+            "emails": ["YourAnonSpider@protonmail.com", "YourAnonSpider@riseup.net", "el_cobra69@hotmail.com", "007agent18@gmail.com", "i.spider.bernard@gmail.com", "spid3rvio@gmx.de", "spid3r82@live.de", "Spiderman_r3v3ng3@yahoo.com", "shinyc0rp@tuta.io"],
+            "phones": [],
+            "names": [],
+            "location": ["Turquía", "Irán (objetivo)"],
+            "services": ["Ransomware", "Botnet", "Data Breach", "Hacktivismo", "DDoS", "Venta de datos", "Vishing", "Extorsión"],
+            "tools": ["ShinySp1d3r ransomware", "BotNetService", "Herramientas DDoS"],
+            "campaigns": ["#OpIran", "DDoS en Chechenia (Rusia)"],
+            "targets": ["Gobierno de Irán (Ministerio de Industrias y Minas, Organización Nacional de Normalización)", "Objetivos en Rusia"],
+            "hosting": ["t.me/SLSH6", "t.me/sh1nygroup", "t.me/anoncollectivechat", "t.me/youranonspider", "x.com/meowsevy"]
+        },
+        "Anonymous": {
+            "desc": "El líder del grupo Spid3r, también conocido como KromSec y AnonSpid3r, ha estado activo en #OpIran, llevando a cabo ataques contra varios objetivos. Se ha informado de que derribó varios sitios web afiliados al gobierno iraní durante las protestas por la muerte de Mahsa Amini.",
+            "aliases": ["OpIran", "Spid3r", "KromSec"],
+            "channels": [],
+            "emails": [],
+            "phones": [],
+            "names": ["Spid3r"],
+            "location": ["Irán"],
+
+           
+       -------------------------------------------------------------------------------------------------------------------
+@KromSecurity
+
+https://t.me/Krom_Sec
+
+درود به مردم ایران،
+
+ امروز به شما اعلام می کنیم که سازمان فناوری اطلاعات ایران [ito.gov.ir]  هک شده است.
+
+ با اینکه سیستم فقط کامپیوترهای متصل به شبکه خصوصی "فوق العاده امن" را می پذیرفت، پسورد و اطلاعات را به دست آوردیم. هویت و اطلاعات بسیاری از افراد موجود در سامانه توجهمان را جلب کرده است.
+
+ در راستای استفاده از اطلاعات به سودمندترین روش حرکت خواهیم کرد. ما به مردم ایران قول دادیم که در کنارشان باشیم و به عهد خود وفا می کنیم، وقتی جرقه های آتش ظاهر شد ما را همراه خود یافتید. وقتی دوباره آتش را روشن کنید، ما را باز همراه خود خواهید دید.
+
+ ما به آزادی اعتقاد داریم و برای اعتقادات خود به مبارزه ادامه میدهیم. از شما هم همین را امید و انتظار داریم.
+
+We are KromSec. Expect Us!
+
+We share the information of government employees, use it well ✌️
+
+ما اطلاعات کارمندان دولت رو به اشتراک میگذاریم، ازشون بخوبی استفاده کنید)
+https://t.me/Krom_Sec/122
+
+W @KromSec
+
+👤 Человек найден! ID: 5119060622
+
+⏳ Дата регистрации: янв. - апр. 2022
+
+История имён:
+ 1) Spid3r
+
+Состоял в 3 группах:
+- Breached Data | Group @BreachedDB
+- DogelonMars @DogelonMars
+- Pentester Chat @PentesterChat
+---
+https://t.me/PentesterChat
+
+AnonymousTurkey
+
+https://t.me/spid3rcrypto
+
+spid3r crypto
+---
+🔗LinkPass collection
+
+En 2022, un jugador integral apareció en la red que contiene datos de autorización para varios sitios. Se obtuvo utilizando virus que roban datos almacenados para ingresar a los navegadores. La fuga contenía aproximadamente 150 millones de notas. Indicaba apodos, correo y teléfonos como inicios de sesión y contraseñas en forma de texto simple, así como sitios para los cuales están destinados.
+
+🔑Contraseña:  CryptoTab Browser_[User Data]_Default
+👤Mella:  Spid3rBlackBernard420.
+🔗Enlace:  i.spider.bernard@gmail.com
+
+i.spider.bernard@gmail.com
+
+☁Cloudata
+
+Gran recopilación de datos de pase de correo electrónico. 
+La base se recopiló de muchos archivos el 18 de mayo de 2023. Inicialmente, todas las bases pesaban 338 GB (11 mil millones de líneas). 
+Después de eliminar duplicados y datos de las colecciones, quedaron alrededor de 2 mil millones.
+
+📩Correo electrónico:  i.spider.bernard@gmail.com
+🔑Contraseña:  Spid3rBlackBernard420
 
 ---
+🪔Wattpad
 
-- Confirmación oficial del grupo ShinyHunters
-- Correlación con Killnet, CyberVolk, Lizard Squad (tu hallazgo del 31/05)
-- Evidencia de VirusTotal (IPs, hashes, certificados)
-- OSINT de redes sociales
-- Fuentes verificadas (WatchGuard, Zensec, Seqrite)
-- Línea de tiempo completa
-- Recomendaciones para equipos defensivos
+En junio de 2020, se dirigió el sitio web de usuarios de Wattpad que abrió 270 millones de registros. 
+Se divulgó información personal: nombres, correo, IP, género, fecha de nacimiento y contraseñas en forma de hash bcrypt.
+
+
+📩Correo electrónico:  0wlhexus@gmail.com
+🔑Contraseña:  prussiaisawesome
+----
+el_cobra69@hotmail.com
+@siegedsec_chat
+@siegedsec
+----
+🔎Pedido: @siegedsec
+🔬Sujetos hechos: 1
+📁Número de resultados: 5
+💦El número de fugas: 2
+⌛︎Tiempo de búsqueda: 0.0 artículos de segunda clase
+
+🕵Domains-Monitor.com
+
+Este sitio proporciona información sobre todos los sitios registrados en Internet. 
+Al tener una suscripción, desde este sitio puede descargar la tabla actual con una lista de todas las direcciones de URL existentes. 
+La mesa se descargó el 6 de julio de 2025 y contiene 275 millones de notas. No había otros datos, excepto las direcciones en la base de datos.
+
+🔗Enlace:  siegedsec.com 
+🔗Enlace:  siegedsec.locker 
+🔗Enlace:  siegedsec.ru
+
+@anoncollectivechat
+
+@youranonspider
+
+📩Correo electrónico:
+YourAnonSpider@protonmail.com
+YourAnonSpider@protonmail.com 
+YourAnonSpider@riseup.net
+
+🔐Contraseña encriptada:
+$argon2id$v=19$m=65536,t=4,p=1$TmRXZG56SW5aNGJTckhDYw$ehzw1inl8w3qN/pFhG9wkXLzYNyjQzn67Ketu9gjIIA:C7fPstzt
+_binary 0x2432792431302463556f4c58615144486d35786b754b7044677350562e4c774c4978562f743678666c6156744b7a575964514d6135784c5956673269
+
+👤Mella:
+AnonymousTurkey
+YourAnonSpider
+
+🎯IP:
+0x330F5A4A
+
+AnonymousTurkey
+
+RESULTADOS ENCONTRADOS (46/198)
+═══════════════════════════════════════════════════════════
+
+Social (10):
+  → Facebook: https://facebook.com/YourAnonSpider
+  → Twitter/X: https://twitter.com/YourAnonSpider
+  → Instagram: https://instagram.com/YourAnonSpider
+  → Ello: https://ello.co/YourAnonSpider
+  → Bluesky: https://bsky.app/profile/YourAnonSpider
+  → Threads: https://threads.net/@YourAnonSpider
+  → Weibo: https://weibo.com/YourAnonSpider
+  → Xiaohongshu: https://xiaohongshu.com/user/profile/YourAnonSpider
+  → Gettr: https://gettr.com/user/YourAnonSpider
+  → Truth Social: https://truthsocial.com/@YourAnonSpider
+
+Mensajería (2):
+  → Telegram: https://t.me/YourAnonSpider
+  → Discord: https://discord.com/users/YourAnonSpider
+
+Tech (2):
+  → HackerNews: https://news.ycombinator.com/user?id=YourAnonSpider
+  → Indie Hackers: https://indiehackers.com/YourAnonSpider
+
+Arte (1):
+  → Newgrounds: https://YourAnonSpider.newgrounds.com
+
+Dev (2):
+  → GitHub: https://github.com/YourAnonSpider
+  → Glitch: https://glitch.com/@YourAnonSpider
+
+Programación (3):
+  → HackerRank: https://hackerrank.com/YourAnonSpider
+  → CodeChef: https://codechef.com/users/YourAnonSpider
+  → CodinGame: https://codingame.com/profile/YourAnonSpider
+
+Gaming (5):
+  → Steam: https://steamcommunity.com/id/YourAnonSpider
+  → Steam Group: https://steamcommunity.com/groups/YourAnonSpider
+  → Nintendo: https://en-americas-support.nintendo.com/app/answers/detail/a_id/63047
+  → Armor Games: https://armor.ag/@YourAnonSpider
+  → Game Jolt: https://gamejolt.com/@YourAnonSpider
+
+Streaming (3):
+  → Twitch: https://twitch.tv/YourAnonSpider
+  → Trovo: https://trovo.live/YourAnonSpider
+  → DLive: https://dlive.tv/YourAnonSpider
+
+Música (1):
+  → YouTube Music: https://music.youtube.com/channel/YourAnonSpider
+
+Video (6):
+  → YouTube: https://youtube.com/@YourAnonSpider
+  → YouTube Channel: https://youtube.com/c/YourAnonSpider
+  → Bitchute: https://bitchute.com/channel/YourAnonSpider
+  → DTube: https://d.tube/#!/c/YourAnonSpider
+  → LBRY: https://lbry.tv/@YourAnonSpider
+  → Odysee: https://odysee.com/@YourAnonSpider
+
+Dating (2):
+  → Plenty of Fish: https://pof.com/member/YourAnonSpider
+  → Scruff: https://scruff.com/profile/YourAnonSpider
+
+Freelance (1):
+  → Freelancer: https://freelancer.com/u/YourAnonSpider
+
+Blog (1):
+  → WordPress: https://YourAnonSpider.wordpress.com
+
+NFT (1):
+  → Nifty Gateway: https://niftygateway.com/profile/YourAnonSpider
+
+Crypto (1):
+  → Etherscan: https://etherscan.io/address/YourAnonSpider
+
+Seguridad (2):
+  → TryHackMe: https://tryhackme.com/p/YourAnonSpider
+  → Root-Me: https://root-me.org/YourAnonSpider
+
+Educación (1):
+  → Duolingo: https://duolingo.com/profile/YourAnonSpider
+
+Deporte (2):
+  → MapMyRun: https://mapmyrun.com/profile/YourAnonSpider
+  → Garmin Connect: https://connect.garmin.com/modern/profile/YourAnonSpider
+
 ---
+----
+------
+---------
+-----------
+-------------
+-----------------
+-------------------- By Condor2026
+
+BY Andromeda universio 25
+*"Investigación asistida por Softaware proprio Andrómeda Universo25.
