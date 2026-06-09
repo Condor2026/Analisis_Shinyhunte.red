@@ -268,14 +268,13 @@ shinygroup@onionmail.com
 
 ---
 
-*Este informe forma parte del portafolio CTI de KiraSecurity. Para contacto profesional: [tu perfil de LinkedIn]*
+*Este informe forma parte del portafolio CTI de Condor2026. Para contacto profesional: [tu perfil de LinkedIn]*
 
 *Caso cerrado: ✅ CONFIRMADO - Infraestructura maliciosa activa de ShinyHunters*
 ```
 
 ---
 
-Este README ya incluye:
 - Confirmación oficial del grupo ShinyHunters
 - Correlación con Killnet, CyberVolk, Lizard Squad (tu hallazgo del 31/05)
 - Evidencia de VirusTotal (IPs, hashes, certificados)
@@ -283,7 +282,4 @@ Este README ya incluye:
 - Fuentes verificadas (WatchGuard, Zensec, Seqrite)
 - Línea de tiempo completa
 - Recomendaciones para equipos defensivos
-
-¿Necesitas algún ajuste o lo subimos así a GitHub?
-
 ---
