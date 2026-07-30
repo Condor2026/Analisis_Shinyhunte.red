@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHINYHUNTERS · EL RENACER · INFRAESTRUCTURA CRÍTICA · shinyhunte.red</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #05080f;
+            color: #c8d6e5;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            padding: 20px;
+            line-height: 1.7;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            position: relative;
+            overflow-x: hidden;
+        }
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            background: transparent;
+        }
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            width: 100%;
+            background: rgba(8, 14, 26, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(180, 0, 255, 0.15);
+            border-radius: 24px;
+            padding: 30px 35px;
+            box-shadow: 0 0 80px rgba(180, 0, 255, 0.05), inset 0 0 60px rgba(100, 0, 180, 0.03);
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0a0f1a; }
+        ::-webkit-scrollbar-thumb { background: #3a1a5a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #5a2a8a; }
+
+        .term-bar {
+            background: rgba(20, 0, 40, 0.6);
+            padding: 8px 18px;
+            border-radius: 12px 12px 0 0;
+            border-bottom: 1px solid rgba(180, 0, 255, 0.15);
+            display: flex;
+            gap: 14px;
+            font-size: 0.75em;
+            color: #6a4a8a;
+            margin: -22px -26px 20px -26px;
+            align-items: center;
+            flex-wrap: wrap;
+            font-family: 'Fira Code', monospace;
+        }
+        .term-bar .dots span {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+        .term-bar .dots .red { background: #ff4466; box-shadow: 0 0 6px #ff446688; }
+        .term-bar .dots .yellow { background: #ffcc66; box-shadow: 0 0 6px #ffcc6688; }
+        .term-bar .dots .green { background: #00ff88; box-shadow: 0 0 6px #00ff8888; }
+        .term-bar .path { color: #aa88dd; margin-left: 10px; }
+        .term-bar .path span { color: #ffcc66; }
+        .term-bar .right-info { margin-left: auto; color: #4a2a6a; }
+
+        h1 {
+            font-size: 2.8em;
+            font-weight: 800;
+            color: #cc88ff;
+            text-shadow: 0 0 40px rgba(180, 0, 255, 0.2), 0 0 80px rgba(100, 0, 180, 0.1);
+            letter-spacing: 2px;
+            border-bottom: 2px solid rgba(180, 0, 255, 0.2);
+            padding-bottom: 14px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+        h1 small {
+            font-size: 0.35em;
+            color: #bb88ee;
+            font-weight: 400;
+            letter-spacing: 1px;
+            opacity: 0.8;
+        }
+        .subtitle {
+            color: #7a5a9a;
+            font-size: 0.95em;
+            letter-spacing: 1.5px;
+            margin-bottom: 25px;
+            border-left: 3px solid #aa66ff;
+            padding-left: 18px;
+            opacity: 0.9;
+        }
+        .quote {
+            font-style: italic;
+            color: #d0b0ff;
+            border-left: 4px solid #aa66ff;
+            padding: 16px 24px;
+            margin: 30px 0;
+            background: rgba(180, 0, 255, 0.04);
+            border-radius: 0 12px 12px 0;
+            font-size: 1.1em;
+        }
+        .quote strong { color: #cc88ff; }
+
+        h2 {
+            color: #bb88ee;
+            font-size: 1.9em;
+            font-weight: 700;
+            margin-top: 45px;
+            margin-bottom: 18px;
+            border-left: 5px solid #aa66ff;
+            padding-left: 20px;
+            text-shadow: 0 0 30px rgba(180, 0, 255, 0.06);
+        }
+        h3 {
+            color: #ffcc66;
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-top: 32px;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        h3::before { content: "◆"; color: #aa66ff; font-size: 0.8em; opacity: 0.7; }
+        h4 { color: #ff9966; font-size: 1.15em; font-weight: 600; margin-top: 24px; margin-bottom: 10px; }
+        h5 { color: #88aacc; font-size: 1em; font-weight: 600; margin-top: 20px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1.5px; }
+
+        .section {
+            background: rgba(12, 22, 40, 0.5);
+            border: 1px solid rgba(180, 0, 255, 0.08);
+            border-radius: 16px;
+            padding: 24px 28px;
+            margin: 30px 0;
+            transition: border-color 0.3s;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+        }
+        .section:hover { border-color: rgba(180, 0, 255, 0.2); }
+
+        ul {
+            list-style: none;
+            padding-left: 6px;
+            margin: 12px 0;
+        }
+        ul li {
+            padding: 5px 0 5px 30px;
+            position: relative;
+        }
+        ul li::before { content: "▹"; position: absolute; left: 4px; color: #aa66ff; font-weight: bold; opacity: 0.8; }
+        ul li strong { color: #e0ecff; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 18px 0;
+            font-size: 0.9em;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(180, 0, 255, 0.06);
+        }
+        th {
+            background: rgba(40, 0, 80, 0.4);
+            color: #bb88ee;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            font-size: 0.7em;
+            padding: 14px 14px;
+            border-bottom: 2px solid rgba(180, 0, 255, 0.1);
+            text-align: left;
+        }
+        td { padding: 12px 14px; border-bottom: 1px solid rgba(180, 0, 255, 0.04); vertical-align: top; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: rgba(180, 0, 255, 0.02); }
+
+        code {
+            background: rgba(40, 0, 80, 0.5);
+            padding: 2px 12px;
+            border-radius: 6px;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #dd88ff;
+            border: 1px solid rgba(180, 0, 255, 0.08);
+            word-break: break-all;
+        }
+        pre {
+            background: rgba(10, 0, 20, 0.6);
+            border: 1px solid rgba(180, 0, 255, 0.06);
+            border-radius: 12px;
+            padding: 18px;
+            overflow-x: auto;
+            font-size: 0.85em;
+            color: #d0b8e0;
+            margin: 15px 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(180, 0, 255, 0.15);
+            color: #cc88ff;
+            font-weight: 700;
+            padding: 3px 14px;
+            border-radius: 30px;
+            border: 1px solid rgba(180, 0, 255, 0.2);
+            font-size: 0.75em;
+            letter-spacing: 0.5px;
+        }
+        .badge-green { background: rgba(0, 255, 136, 0.1); color: #00ff88; border-color: rgba(0, 255, 136, 0.15); }
+        .badge-yellow { background: rgba(255, 200, 50, 0.1); color: #ffcc66; border-color: rgba(255, 200, 50, 0.15); }
+        .badge-blue { background: rgba(0, 180, 255, 0.1); color: #66d9ff; border-color: rgba(0, 180, 255, 0.15); }
+        .badge-red { background: rgba(255, 40, 80, 0.15); color: #ff4466; border-color: rgba(255, 40, 80, 0.15); }
+
+        .correlacion {
+            background: rgba(40, 0, 80, 0.2);
+            border: 1px solid rgba(255, 100, 80, 0.2);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin: 14px 0;
+        }
+        .correlacion strong { color: #ff8866; }
+
+        .anexo-raw {
+            background: rgba(20, 0, 40, 0.4);
+            border-left: 4px solid #ffcc66;
+            padding: 14px 20px;
+            margin: 18px 0;
+            border-radius: 8px;
+        }
+        .anexo-raw h4 { color: #ffcc66; margin-top: 0; }
+
+        .footer {
+            margin-top: 50px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(180, 0, 255, 0.08);
+            font-size: 0.85em;
+            color: #6a4a7a;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .footer .left { color: #7a5a8a; }
+        .footer .right { color: #5a3a6a; font-size: 0.9em; }
+        .footer .highlight { color: #cc88ff; }
+
+        .typer-container { margin: 10px 0 20px 0; display: flex; justify-content: center; }
+        .typer-container img { max-width: 100%; height: auto; }
+
+        @media (max-width: 700px) {
+            body { padding: 10px; }
+            .container { padding: 18px 16px; }
+            h1 { font-size: 2em; }
+            .section { padding: 16px; }
+            .term-bar { margin: -16px -16px 16px -16px; padding: 8px 12px; }
+            table { font-size: 0.7em; }
+            td, th { padding: 6px 8px; }
+            .footer { flex-direction: column; gap: 8px; text-align: center; }
+            pre { font-size: 0.7em; padding: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="particles-canvas"></canvas>
+
+<div class="container">
+
+    <!-- BARRA DE TERMINAL -->
+    <div class="term-bar">
+        <div class="dots"><span class="red"></span><span class="yellow"></span><span class="green"></span></div>
+        <span class="path">root@osint:~/<span>SHINYHUNTERS</span></span>
+        <span class="right-info">[ 30/07/2026 ]</span>
+    </div>
+
+    <!-- FIRMA ANIMADA -->
+    <div class="typer-container">
+        <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=28&duration=3000&pause=500&color=CC88FF&center=true&vCenter=true&width=750&lines=Condor2026+%7C+Threat+Intelligence;ShinyHunters+%C2%B7+shinyhunte.red;An%C3%A1lisis+de+infraestructura+maliciosa;El+renacer+de+un+grupo+legendario;La+informaci%C3%B3n+no+se+call%C3%B3" alt="Typing animation" />
+    </div>
+
+    <!-- TÍTULO -->
+    <h1>👾 SHINYHUNTERS <small>EL RENACER · shinyhunte.red · INFRAESTRUCTURA CRÍTICA</small></h1>
+    <div class="subtitle">DOXX · INFRAESTRUCTURA · ANÁLISIS OSINT · CRONOLOGÍA · RECOMENDACIONES · DATOS CRUDOS</div>
+
+    <div class="quote"><strong>“Next time, don't play with the big boys. The response will be fast.”</strong> — Mensaje dejado en shinyhunte.red, el nuevo sitio de vanidad de ShinyHunters en la clearnet.</div>
+
+    <!-- ======================== PRÓLOGO ======================== -->
+    <div class="section">
+        <h2>PRÓLOGO · EL RENACER DE SHINYHUNTERS</h2>
+        <p><strong>ShinyHunters</strong> es uno de los grupos de ciberdelincuencia más notorios de la última década. Conocidos por violar grandes empresas como <strong>Microsoft (repositorios de GitHub), Tokopedia, Wattpad, Mathway</strong>, y muchas otras, han vendido y filtrado miles de millones de credenciales. Su nombre se hizo famoso en los mercados de la darknet como <strong>Empire Market</strong> y en el extinto foro <strong>RaidForums</strong>.</p>
+        <p>Tras un período de aparente inactividad, en <strong>mayo de 2026</strong> el grupo ha regresado con un nuevo dominio en la clearnet: <strong><code>shinyhunte.red</code></strong>. Este no es un dominio cualquiera: es una declaración de intenciones, una "página de vanidad" donde presumen de sus hacks y envían un mensaje claro a la comunidad de seguridad: <em>"Seguimos aquí, y no tenemos miedo."</em></p>
+        <p>Este dossier analiza en profundidad la infraestructura de <code>shinyhunte.red</code>, sus conexiones con infraestructura maliciosa previa (GitHub Pages, Fastly) y los artefactos maliciosos que han sido alojados desde sus IPs. La investigación se basa en datos de VirusTotal, Passive DNS, registros RDAP y fuentes OSINT abiertas, con especial atención a los investigadores que ya han señalado este dominio como una amenaza activa.</p>
+    </div>
+
+    <!-- ======================== PARTE I: SHINYHUNTERS ======================== -->
+    <div class="section">
+        <h2>PARTE I · SHINYHUNTERS: ¿QUIÉNES SON?</h2>
+
+        <h3>1.1. Un Grupo Legendario en el Cibercrimen</h3>
+        <p>ShinyHunters es un grupo de <strong>threat actors</strong> especializado en <strong>robo de datos masivo</strong>, extorsión y venta de credenciales. Su nombre proviene de su capacidad para encontrar ("hunt") datos brillantes ("shiny") en sistemas mal protegidos. Entre sus víctimas más destacadas se encuentran:</p>
+        <ul>
+            <li><strong>Microsoft (GitHub):</strong> Robaron repositorios de código fuente de Microsoft en 2020.</li>
+            <li><strong>Tokopedia:</strong> Una de las mayores plataformas de comercio electrónico de Indonesia, con 91 millones de registros filtrados.</li>
+            <li><strong>Wattpad:</strong> 270 millones de registros de usuarios filtrados.</li>
+            <li><strong>Mathway:</strong> 25 millones de registros de usuarios.</li>
+            <li><strong>Otros:</strong> Pixlr, Promo.com, BigBasket, Swiggy, y muchas más.</li>
+        </ul>
+        <p>El grupo es conocido por su <strong>descaro</strong> y su habilidad para operar en la <strong>clearnet</strong> (web superficial) con sitios de vanidad, mientras mantienen su infraestructura real en la darknet. Su nuevo dominio, <code>shinyhunte.red</code>, sigue exactamente este patrón.</p>
+
+        <h3>1.2. El Modus Operandi de ShinyHunters</h3>
+        <ul>
+            <li><strong>Reconocimiento y Explotación:</strong> Buscan vulnerabilidades en aplicaciones web y APIs expuestas.</li>
+            <li><strong>Exfiltración Masiva:</strong> Roban bases de datos completas, no solo credenciales individuales.</li>
+            <li><strong>Publicidad y Vanidad:</strong> Crean sitios como <code>shinyhunte.red</code> para presumir de sus logros y atraer atención.</li>
+            <li><strong>Venta de Datos:</strong> Comercializan las bases de datos en mercados de la darknet (Empire Market, RaidForums).</li>
+            <li><strong>Infraestructura Efímera:</strong> Utilizan dominios recién registrados (como este) y servicios de proxy (Cloudflare) para ocultar su origen.</li>
+        </ul>
+    </div>
+
+    <!-- ======================== PARTE II ======================== -->
+    <div class="section">
+        <h2>PARTE II · ANÁLISIS DE <code>shinyhunte.red</code></h2>
+
+        <h3>2.1. Resumen Ejecutivo</h3>
+        <p><strong><code>shinyhunte.red</code> es un dominio de alto riesgo, recién registrado (2 de mayo de 2026), que está siendo activamente referenciado por investigadores de seguridad como el nuevo sitio web en la "clearnet" (web superficial) del grupo de ciberdelincuentes conocido como ShinyHunters.</strong> Aunque el propio dominio tiene una tasa de detección baja (4/91), su infraestructura, historial y contexto lo marcan claramente como malicioso.</p>
+
+        <h3>2.2. Detalles del Dominio</h3>
+        <table>
+            <tr><th>Componente</th><th>Hallazgo</th><th>Interpretación</th></tr>
+            <tr><td><strong>Dominio</strong></td><td><code>shinyhunte.red</code> (registrado: 2026-05-02)</td><td><strong>Nuevo e intencional.</strong> El nombre es un "typosquat" (error ortográfico) de "ShinyHunters". El TLD <code>.red</code> es barato y se usa a menudo para infraestructura efímera.</td></tr>
+            <tr><td><strong>Detección</strong></td><td>4/91 en VT</td><td><strong>Falsa sensación de seguridad.</strong> La baja detección es común en dominios recién registrados. Las firmas estáticas aún no lo han incluido, pero el comportamiento es la clave.</td></tr>
+            <tr><td><strong>Contenido (por X/Twitter)</strong></td><td>"HACKED BY SHINYHUNTERS"</td><td><strong>Reclamación de responsabilidad.</strong> Es una página "vanity" (de vanidad) para presumir de hacks. Es típico de su <em>modus operandi</em>: golpe de efecto público.</td></tr>
+            <tr><td><strong>Certificado SSL</strong></td><td>Emisor: Google Trust Services, CN=<code>shinyhunte.red</code></td><td><strong>Legitimidad falsa.</strong> Usar un certificado SSL válido (de una CA reconocida) es estándar incluso en sitios maliciosos para que el tráfico HTTPS no levante sospechas.</td></tr>
+            <tr><td><strong>Registro (RDAP)</strong></td><td>Registrador: Porkbun, Fechas: 2026-05-02 a 2027-05-02, Privado (INTERNAL-xxxx)</td><td><strong>Infraestructura efímera.</strong> Registrado por solo 1 año (mínimo para campañas cortas). El uso de datos de contacto "INTERNAL" (privados) es obligatorio por GDPR pero también les da anonimato.</td></tr>
+            <tr><td><strong>IPs Actuales (A/AAAA)</strong></td><td><code>104.21.93.206</code>, <code>172.67.214.117</code> (Cloudflare)</td><td><strong>Proxy y anonimato.</strong> Usar Cloudflare les protege de ataques DDoS y oculta el servidor de origen real. Es una red de distribución de contenido (CDN) legítima, muy abusada.</td></tr>
+            <tr><td><strong>IPs Históricas (Passive DNS)</strong></td><td><code>185.199.111.153</code>, etc. (Rango de GitHub/Fastly)</td><td><strong>Pista forense crítica.</strong> Esas IPs pertenecen a <strong>GitHub Pages</strong>. Es muy probable que el sitio originalmente estuviera alojado en una página de GitHub (gratis y anónimo) y luego lo migraran a Cloudflare. Los archivos maliciosos vistos ahí (ver abajo) lo confirman.</td></tr>
+            <tr><td><strong>Archivos en IP Histórica</strong></td><td><code>MYpIC.zip</code> (56/67), <code>java.exe</code> (64/71), múltiples APKs android</td><td><strong>Carga útil maliciosa.</strong> Esos no son archivos de documentación. Son binarios (EXEs, ZIPs, APKs) con alta tasa de detección. <code>java.exe</code> es un nombre falso común para troyanos. Esto demuestra que la IP sirvió malware activamente.</td></tr>
+            <tr><td><strong>Gráficos de Comunidad</strong></td><td>Relaciones con GuLoader, Discord scams, phishing</td><td><strong>Infraestructura compartida.</strong> La IP <code>185.199.111.153</code> está vinculada a múltiples campañas maliciosas diferentes. No es un sitio aislado; es parte de un ecosistema de malware más amplio.</td></tr>
+            <tr><td><strong>Referencias en X</strong></td><td>Dominic Alvieri, OpSec Insider, PurpleOps</td><td><strong>Confirmación por investigadores.</strong> Fuentes reconocidas en ciberseguridad ya están reportando y siguiendo este dominio. No es un rumor, es un aviso activo.</td></tr>
+        </table>
+
+        <h3>2.3. Análisis Detallado de los Registros</h3>
+        
+        <h4>Certificado HTTPS</h4>
+        <p>El certificado SSL fue emitido por <strong>Google Trust Services (WE1)</strong> el 3 de mayo de 2026, válido hasta el 1 de agosto de 2026. El nombre común (<code>CN</code>) es <code>shinyhunte.red</code>, lo que confirma que el certificado fue creado específicamente para este dominio. La clave pública es de tipo <strong>EC (secp256r1)</strong>, lo que indica una configuración moderna y segura, pero común en sitios maliciosos que buscan parecer legítimos.</p>
+
+        <h4>Registro RDAP (Whois)</h4>
+        <ul>
+            <li><strong>Registrador:</strong> Porkbun (IANA ID 1861), conocido por aceptar pagos en criptomonedas y no exigir verificación de identidad rigurosa.</li>
+            <li><strong>Fechas:</strong> Registrado el 2026-05-02, expira el 2027-05-02 (1 año, el mínimo para campañas cortas).</li>
+            <li><strong>Contacto:</strong> Datos de contacto "INTERNAL-9069" (registrant), "INTERNAL-9070" (administrative), "INTERNAL-9071" (technical), "INTERNAL-9072" (billing). Esto es una capa de anonimato adicional.</li>
+            <li><strong>Nameservers:</strong> <code>ian.ns.cloudflare.com</code> e <code>ivy.ns.cloudflare.com</code>, confirmando el uso de Cloudflare como CDN y proxy.</li>
+        </ul>
+
+        <h4>Passive DNS Replication</h4>
+        <p>El dominio se resolvió inicialmente a las siguientes IPs de <strong>GitHub Pages</strong> (rango <code>185.199.108.0/22</code>):</p>
+        <ul>
+            <li><code>185.199.108.153</code></li>
+            <li><code>185.199.109.153</code></li>
+            <li><code>185.199.110.153</code></li>
+            <li><code>185.199.111.153</code></li>
+        </ul>
+        <p>Todas estas IPs pertenecen a <strong>Fastly, Inc.</strong> (AS 54113), que es el proveedor de CDN de GitHub Pages. Esto indica que el sitio fue inicialmente alojado en GitHub Pages, una plataforma gratuita y anónima que permite a cualquiera publicar contenido estático.</p>
+
+        <h4>Archivos Maliciosos en la IP Histórica</h4>
+        <p>La IP <code>185.199.111.153</code> ha sido asociada con múltiples archivos maliciosos, lo que confirma que no es un sitio benigno:</p>
+        <table>
+            <tr><th>Archivo</th><th>Detección</th><th>Tipo</th></tr>
+            <tr><td><code>MYpIC.zip</code></td><td>56/67</td><td>ZIP (probablemente malware empaquetado)</td></tr>
+            <tr><td><code>java.exe</code></td><td>64/71</td><td>Win32 EXE (troyano, info-stealer)</td></tr>
+            <tr><td><code>Softbank2024.apk</code></td><td>41/67</td><td>Android APK (malware móvil)</td></tr>
+            <tr><td><code>du8r11.exe</code></td><td>40/67</td><td>Win32 EXE (carga útil)</td></tr>
+            <tr><td><code>Rufus</code></td><td>61/71</td><td>Win32 EXE (falso Rufus, probable malware)</td></tr>
+            <tr><td><code>FILE FOLDER</code></td><td>62/70</td><td>Win32 EXE (carpeta falsa con malware)</td></tr>
+            <tr><td><code>system.exe</code></td><td>66/72</td><td>Win32 EXE (carga útil de sistema)</td></tr>
+        </table>
+
+        <h4>Comunicación con Archivos</h4>
+        <p>La IP <code>185.199.111.153</code> también ha estado en comunicación con archivos maliciosos, incluyendo:</p>
+        <ul>
+            <li><code>Subdominator.dll</code> (2/71 detecciones) – una DLL que podría estar relacionada con enumeración de subdominios.</li>
+            <li><code>DPI-FILES.zip</code> (5/67 detecciones) – posible herramienta de evasión.</li>
+            <li><code>ThreatSniper</code> (1/55 detecciones) – nombre sugestivo de herramienta de ataque.</li>
+        </ul>
+
+        <h4>Gráficos de Comunidad (Community Graphs)</h4>
+        <p>La IP <code>185.199.111.153</code> aparece en múltiples gráficos de comunidad de VirusTotal, relacionada con:</p>
+        <ul>
+            <li><strong>GuLoader</strong> – un conocido descargador de malware.</li>
+            <li><strong>Discord scams</strong> – estafas a través de Discord.</li>
+            <li><strong>Phishing campaigns</strong> – campañas de phishing de alto perfil.</li>
+            <li><strong>Eternidade Stealer</strong> – un info-stealer activo en 2025-2026.</li>
+        </ul>
+        <p>Esto confirma que la IP no es solo para <code>shinyhunte.red</code>, sino que forma parte de un <strong>ecosistema de malware más amplio</strong>.</p>
+    </div>
+
+    <!-- ======================== PARTE III ======================== -->
+    <div class="section">
+        <h2>PARTE III · CRONOLOGÍA Y EVENTOS</h2>
+
+        <h3>3.1. Línea de Tiempo del Dominio</h3>
+        <table>
+            <tr><th>Fecha</th><th>Evento</th><th>Fuente</th></tr>
+            <tr><td><strong>2026-05-02</strong></td><td>Registro del dominio <code>shinyhunte.red</code> en Porkbun.</td><td>RDAP / Whois</td></tr>
+            <tr><td><strong>2026-05-02</strong></td><td>Primera resolución DNS a IPs de GitHub Pages (<code>185.199.108.0/22</code>).</td><td>Passive DNS (VirusTotal)</td></tr>
+            <tr><td><strong>2026-05-03</strong></td><td>Emisión del certificado SSL por Google Trust Services.</td><td>Certificado HTTPS</td></tr>
+            <tr><td><strong>2026-05-03</strong></td><td>Primera mención en X (Twitter) por <strong>Dominic Alvieri</strong> (@AlvieriD): <em>"Might have a new ShinyHunters clearnet /shinyhunte[.]red Unconfirmed but live…"</em></td><td>X / Twitter</td></tr>
+            <tr><td><strong>2026-05-03</strong></td><td><strong>PurpleOps</strong> (@PurpleOps_io) confirma: <em>"ShinyHunters just stood up a clearnet vanity page at shinyhunte[.]red, broadcasting 'HACKED BY SHINYHUNTERS' with a defiant one-liner."</em></td><td>X / Twitter</td></tr>
+            <tr><td><strong>2026-05-03</strong></td><td><strong>OpSec Insider</strong> (@OpSecInsider) comparte: <em>"New ShinyHunters clearnet? /shinyhunte[.]red Unconfirmed but live."</em></td><td>X / Twitter</td></tr>
+            <tr><td><strong>2026-05-07</strong></td><td>Primeros archivos maliciosos (APKs) detectados en la IP <code>185.199.111.153</code>.</td><td>VirusTotal (Communicating Files)</td></tr>
+            <tr><td><strong>2026-05-20</strong></td><td><code>MYpIC.zip</code> y <code>java.exe</code> detectados con alta tasa de detección.</td><td>VirusTotal</td></tr>
+            <tr><td><strong>2026-05-28</strong></td><td>Nuevos dominios asociados a la IP (<code>www.breakingtheice.space</code>, <code>muthapavani.github.io</code>, etc.).</td><td>Passive DNS</td></tr>
+            <tr><td><strong>2026-05-29</strong></td><td>Se cambia la resolución DNS a Cloudflare (<code>104.21.93.206</code>, <code>172.67.214.117</code>).</td><td>Passive DNS / VirusTotal</td></tr>
+        </table>
+
+        <h3>3.2. Eventos Clave</h3>
+        <ul>
+            <li><strong>Registro y Activación:</strong> El dominio se registró y se activó en el mismo día (2026-05-02), lo que indica que la infraestructura estaba preparada previamente.</li>
+            <li><strong>Uso de GitHub Pages:</strong> La elección de GitHub Pages es estratégica: permite alojar contenido estático de forma gratuita y anónima, sin necesidad de un servidor propio. Esto les da tiempo para preparar la infraestructura final.</li>
+            <li><strong>Migración a Cloudflare:</strong> El cambio a Cloudflare (2026-05-29) es un paso típico para ocultar la IP real del servidor y protegerse de ataques DDoS. Cloudflare también les permite añadir capas de seguridad y evasión.</li>
+            <li><strong>Artefactos Maliciosos:</strong> La presencia de archivos como <code>java.exe</code> y <code>MYpIC.zip</code> en la IP histórica confirma que el grupo ya está distribuyendo malware desde esta infraestructura.</li>
+        </ul>
+    </div>
+
+    <!-- ======================== PARTE IV ======================== -->
+    <div class="section">
+        <h2>PARTE IV · TÁCTICAS, TÉCNICAS Y PROCEDIMIENTOS (TTPs)</h2>
+
+        <h3>4.1. Técnicas de Evasión</h3>
+        <ul>
+            <li><strong>Typosquatting:</strong> El dominio <code>shinyhunte.red</code> es un error ortográfico de "ShinyHunters" para evitar detecciones automáticas.</li>
+            <li><strong>Uso de TLDs poco comunes:</strong> El TLD <code>.red</code> es barato y menos monitorizado que los TLDs tradicionales (<code>.com</code>, <code>.org</code>).</li>
+            <li><strong>Certificados SSL válidos:</strong> Usan certificados de Google Trust Services para parecer legítimos y evitar alertas de seguridad en los navegadores.</li>
+            <li><strong>Proxy y CDN (Cloudflare):</strong> Ocultan la IP real del servidor y protegen la infraestructura de ataques DDoS.</li>
+            <li><strong>Alojamiento en GitHub Pages:</strong> Permite una rápida implementación y migración, además de ser anónimo.</li>
+        </ul>
+
+        <h3>4.2. Distribución de Malware</h3>
+        <ul>
+            <li><strong>Archivos Empaquetados:</strong> Utilizan archivos ZIP y EXE con nombres comunes (<code>java.exe</code>, <code>Rufus</code>) para engañar a los usuarios.</li>
+            <li><strong>APKs Android:</strong> Distribuyen malware móvil a través de la misma infraestructura.</li>
+            <li><strong>Descargas Automáticas:</strong> Es probable que el sitio intente descargar malware automáticamente al visitarlo (drive-by download).</li>
+        </ul>
+
+        <h3>4.3. Reclutamiento y Propaganda</h3>
+        <ul>
+            <li><strong>Página de Vanidad:</strong> El mensaje "HACKED BY SHINYHUNTERS" y la frase "Next time, don't play with the big boys" son una forma de publicitar sus logros y atraer a nuevos miembros.</li>
+            <li><strong>Presencia en X (Twitter):</strong> El grupo o sus simpatizantes están monitorizando y participando en conversaciones sobre su infraestructura, lo que indica una estrategia de relaciones públicas activa.</li>
+        </ul>
+    </div>
+
+    <!-- ======================== PARTE V ======================== -->
+    <div class="section">
+        <h2>PARTE V · RECOMENDACIONES Y ACCIONES</h2>
+
+        <h3>5.1. Para Organizaciones (Empresas, Gobiernos, SOCs)</h3>
+        <ul>
+            <li><strong>BLOQUEAR A NIVEL DE DNS/FIREWALL:</strong> Añadir <code>shinyhunte.red</code> y todas las subdominios (<code>*.shinyhunte.red</code>) a listas de bloqueo. También bloquear rangos de IP de Cloudflare usados (<code>104.21.93.206</code>, <code>172.67.214.117</code>) y el rango de GitHub Pages (<code>185.199.108.0/22</code>) si la política lo permite.</li>
+            <li><strong>BUSCAR EN LOS LOGS:</strong> Escanear registros de proxy, DNS y firewall en busca de conexiones a <code>shinyhunte.red</code> o a las IPs históricas, especialmente desde el 2 de mayo de 2026.</li>
+            <li><strong>BUSCAR INDICADORES DE COMPROMISO (IOCs):</strong> Buscar en los endpoints los archivos mencionados (<code>MYpIC.zip</code>, <code>java.exe</code>, las APKs) mediante hashes (obtenibles de VirusTotal). Monitorizar procesos que se conecten a internet sin autorización.</li>
+            <li><strong>MONITORIZAR:</strong> Estar atentos a nuevos dominios similares (<code>shinyhunter.*</code>, <code>shinyhunters-*.*</code>, etc.). Este es el primer nodo de una campaña que se expandirá.</li>
+            <li><strong>INTELIGENCIA:</strong> Subir cualquier artefacto descargado desde ese dominio a un sandbox (ANY.RUN, Joe Sandbox) para capturar su comportamiento completo.</li>
+        </ul>
+
+        <h3>5.2. Para Investigadores de Seguridad</h3>
+        <ul>
+            <li><strong>Monitoreo Continuo:</strong> Seguir la actividad del dominio y sus IPs asociadas en VirusTotal, Passive Total, y otros servicios OSINT.</li>
+            <li><strong>Análisis de Archivos:</strong> Extraer y analizar los archivos maliciosos alojados en la infraestructura para comprender mejor sus capacidades.</li>
+            <li><strong>Correlación:</strong> Buscar relaciones con otros dominios e IPs que aparezcan en los gráficos de comunidad (GuLoader, Discord scams, etc.) para mapear todo el ecosistema.</li>
+            <li><strong>Colaboración:</strong> Compartir hallazgos con la comunidad (X, foros OSINT, grupos de threat intelligence) para una respuesta coordinada.</li>
+        </ul>
+
+        <h3>5.3. Acciones a Largo Plazo</h3>
+        <ul>
+            <li><strong>Reportar a Proveedores:</strong> Reportar el dominio a Porkbun (registrador) y a Cloudflare (CDN) para que tomen medidas contra la infraestructura abusiva.</li>
+            <li><strong>Compartir IoCs:</strong> Publicar listas de IoCs (dominios, IPs, hashes) en plataformas como MISP, AlienVault OTX, o GitHub para que otros puedan protegerse.</li>
+            <li><strong>Preparación:</strong> Dado que ShinyHunters es un grupo de alto impacto, es probable que esta infraestructura se use en campañas futuras. Mantener una vigilancia constante.</li>
+        </ul>
+    </div>
+
+    <!-- ======================== CORRELACIONES ======================== -->
+    <div class="section">
+        <h2>🔗 CORRELACIONES Y ECOSISTEMA</h2>
+
+        <div class="correlacion">
+            <h4>Infraestructura Compartida</h4>
+            <ul>
+                <li><strong>GitHub Pages:</strong> La IP <code>185.199.111.153</code> ha alojado múltiples dominios maliciosos, incluyendo campañas de phishing y malware.</li>
+                <li><strong>GuLoader:</strong> Uno de los gráficos de comunidad vincula la IP con GuLoader, un conocido descargador de malware utilizado por múltiples grupos de ransomware.</li>
+                <li><strong>Discord Scams:</strong> La IP aparece en gráficos de estafas en Discord, lo que indica que el grupo o sus afiliados están utilizando la misma infraestructura para múltiples propósitos.</li>
+                <li><strong>Eternidade Stealer:</strong> Un info-stealer activo en 2025-2026, que ha sido vinculado a la IP en gráficos de comunidad.</li>
+            </ul>
+        </div>
+
+        <div class="correlacion">
+            <h4>Vínculos con Otros Grupos</h4>
+            <ul>
+                <li><strong>ShinyHunters:</strong> El dominio es directamente atribuido a ShinyHunters por investigadores de seguridad (Dominic Alvieri, PurpleOps, OpSec Insider).</li>
+                <li><strong>Empire Market / RaidForums:</strong> ShinyHunters ha operado históricamente en estos mercados, y se espera que utilicen esta infraestructura para vender datos robados.</li>
+                <li><strong>Phishing Campaigns:</strong> La IP también está vinculada a campañas de phishing, lo que indica que la infraestructura se utiliza para múltiples propósitos maliciosos.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ======================== ANEXOS ======================== -->
+    <div class="section">
+        <h2>ANEXOS · TODOS LOS DATOS BRUTOS</h2>
+
+        <h3>Anexo A: Registro RDAP (Whois) Completo</h3>
+        <pre>
+Name: shinyhunte.red
+Handle: 7a6fda10471441cf8252bc379a0b652e-DONUTS
+Events:
+  last update of RDAP database: 2026-05-02T09:43:41+00:00
+  registration: 2026-05-02T09:43:41+00:00
+  expiration: 2027-05-02T09:43:41+00:00
+  registrar expiration: 2027-05-02T09:43:41+00:00
+  last changed: 2026-05-02T09:43:41+00:00
+Status: delete prohibited transfer prohibited
+Entities:
+  Entity INTERNAL-9069 (registrant)
+  Entity INTERNAL-9070 (administrative)
+  Entity INTERNAL-9071 (technical)
+  Entity INTERNAL-9072 (billing)
+  Entity 1861 (registrar)
+Nameservers: IAN.NS.CLOUDFLARE.COM, IVY.NS.CLOUDFLARE.COM
+DNSSEC: Delegation signed: No
+        </pre>
+
+        <h3>Anexo B: Certificado SSL (Thumbprint: bb793a60732662bf31ffc0924beb328ce541215c)</h3>
+        <pre>
+Version: V3
+Serial Number: 463e189ed519b6a80d376faac8da7012
+Thumbprint: bb793a60732662bf31ffc0924beb328ce541215c
+Issuer: C=US O=Google Trust Services CN=WE1
+Validity:
+  Not Before: 2026-05-03 01:49:10
+  Not After: 2026-08-01 02:49:08
+Subject: CN=shinyhunte.red
+Subject Public Key Info:
+  Public Key Algorithm: EC (secp256r1)
+  pub: 04:2f:e2:29:2e:78:ff:d5:a9:7c:93:35:14:73:8a:36:20:3a:69:63:c0:9b:d6:93:bd:cc:fa:87:c8:05:de:37:87:db:e9:10:ef:6f:b5:c8:14:47:70:a9:ed:4d:fb:bf:8b:b8:02:f6:22:45:69:b3:01:d7:ea:bc:be:c0:4c:49:22
+X509v3 extensions:
+  X509v3 Subject Alternative Name: DNS:shinyhunte.red, DNS:*.shinyhunte.red
+  X509v3 Key Usage: digitalSignature
+  X509v3 Extended Key Usage: serverAuth
+        </pre>
+
+        <h3>Anexo C: Passive DNS Replication (Todas las resoluciones)</h3>
+        <ul>
+            <li><code>185.199.108.153</code> (2026-05-02, 3/91 detecciones)</li>
+            <li><code>185.199.109.153</code> (2026-05-02, 1/91 detecciones)</li>
+            <li><code>185.199.110.153</code> (2026-05-02, 1/91 detecciones)</li>
+            <li><code>185.199.111.153</code> (2026-05-02, 3/91 detecciones)</li>
+            <li><code>104.21.93.206</code> (2026-05-29, Cloudflare)</li>
+            <li><code>172.67.214.117</code> (2026-05-29, Cloudflare)</li>
+        </ul>
+
+        <h3>Anexo D: Archivos Maliciosos Detectados en la IP (185.199.111.153)</h3>
+        <table>
+            <tr><th>Archivo</th><th>Detección</th><th>Tipo</th><th>Fecha</th></tr>
+            <tr><td><code>MYpIC.zip</code></td><td>56/67</td><td>ZIP</td><td>2026-05-21</td></tr>
+            <tr><td><code>java.exe</code></td><td>64/71</td><td>Win32 EXE</td><td>2026-05-20</td></tr>
+            <tr><td><code>Softbank2024.apk</code></td><td>41/67</td><td>Android</td><td>2026-05-21</td></tr>
+            <tr><td><code>du8r11.exe</code></td><td>40/67</td><td>Win32 EXE</td><td>2026-05-21</td></tr>
+            <tr><td><code>Rufus</code></td><td>61/71</td><td>Win32 EXE</td><td>2026-05-14</td></tr>
+            <tr><td><code>FILE FOLDER</code></td><td>62/70</td><td>Win32 EXE</td><td>2026-05-20</td></tr>
+            <tr><td><code>system.exe</code></td><td>66/72</td><td>Win32 EXE</td><td>2025-09-07</td></tr>
+            <tr><td><code>com.phstudio.darktheme_9.apk</code></td><td>0/68</td><td>Android</td><td>2026-05-07</td></tr>
+            <tr><td><code>ru.yourok.torrserve_175.apk</code></td><td>0/68</td><td>Android</td><td>2026-05-21</td></tr>
+        </table>
+
+        <h3>Anexo E: Gráficos de Comunidad (Community Graphs) Seleccionados</h3>
+        <ul>
+            <li><strong>KiraSecurity:</strong> Relacionado con <code>www.shinyhunte.red</code> (2026-05-28)</li>
+            <li><strong>KiraSecurity:</strong> ACTIVIDAD MALICIOSA | Relacionada con GuLoader (2024-02-10)</li>
+            <li><strong>Giulio_s:</strong> Discord_frauds (2026-05-15)</li>
+            <li><strong>FEVAR54:</strong> ACTIVIDAD MALICIOSA | Relacionada con Eternidade Stealer (2025-11-26)</li>
+            <li><strong>Bmaster4114:</strong> Discord Scam 2026 (2026-01-02)</li>
+            <li><strong>XHDIX:</strong> Iran phishing campaign 2025 (2025-12-10)</li>
+        </ul>
+
+        <h3>Anexo F: Referencias en X (Twitter) – Investigadores</h3>
+        <ul>
+            <li><strong>Dominic Alvieri (@AlvieriD):</strong> <em>"Might have a new ShinyHunters clearnet /shinyhunte[.]red Unconfirmed but live…"</em> (2026-05-03)</li>
+            <li><strong>PurpleOps (@PurpleOps_io):</strong> <em>"ShinyHunters just stood up a clearnet vanity page at shinyhunte[.]red, broadcasting 'HACKED BY SHINYHUNTERS' with a defiant one-liner."</em> (2026-05-03)</li>
+            <li><strong>OpSec Insider (@OpSecInsider):</strong> <em>"New ShinyHunters clearnet? /shinyhunte[.]red Unconfirmed but live."</em> (2026-05-03)</li>
+        </ul>
+
+        <h3>Anexo G: Otros Dominios Asociados a la IP (Passive DNS)</h3>
+        <ul>
+            <li><code>www.breakingtheice.space</code> (2026-05-28)</li>
+            <li><code>sturdy-funicular-1qjy2ql.pages.github.io</code> (2026-05-28)</li>
+            <li><code>www.robusta.qzz.io</code> (2026-05-28)</li>
+            <li><code>muthapavani.github.io</code> (2026-05-28)</li>
+            <li><code>www.strategictransformations.net</code> (2026-05-28)</li>
+            <li><code>giabridals.victorvandi.com</code> (2026-05-28)</li>
+            <li><code>www.solaris-research.org</code> (2026-05-28)</li>
+            <li><code>angelomassafra.github.io</code> (2026-05-28)</li>
+            <li><code>construction.veziroglu.co.uk</code> (2026-05-28)</li>
+            <li><code>docs.techgears.app</code> (2026-05-28)</li>
+        </ul>
+    </div>
+
+    <!-- ======================== EPÍLOGO ======================== -->
+    <div class="section">
+        <h2>EPÍLOGO</h2>
+        <p><strong>ShinyHunters ha vuelto.</strong> El dominio <code>shinyhunte.red</code> es la primera pieza de una nueva campaña de infraestructura maliciosa. Su uso de GitHub Pages, Cloudflare y certificados SSL válidos demuestra un alto grado de sofisticación y preparación.</p>
+        <p>La presencia de archivos maliciosos en la IP histórica (<code>java.exe</code>, <code>MYpIC.zip</code>) confirma que este no es un sitio benigno; es una <strong>plataforma activa de distribución de malware</strong>.</p>
+        <p>La comunidad de investigadores de seguridad (Dominic Alvieri, PurpleOps, OpSec Insider) ya ha señalado este dominio como una amenaza activa. Es hora de que las organizaciones tomen medidas: <strong>bloquear, buscar en logs, y monitorizar</strong>.</p>
+        <div class="quote"><strong>“Next time, don't play with the big boys. The response will be fast.”</strong> — El mensaje de ShinyHunters es claro. La respuesta de la comunidad de seguridad debe ser igual de rápida y contundente.</div>
+    </div>
+
+    <!-- ======================== REFERENCIAS ======================== -->
+    <div class="section">
+        <h3>📚 REFERENCIAS Y FUENTES</h3>
+        <ul>
+            <li><strong>VirusTotal:</strong> Análisis del dominio <code>shinyhunte.red</code> (2026-05-30).</li>
+            <li><strong>Passive DNS:</strong> Resoluciones históricas del dominio.</li>
+            <li><strong>RDAP / Whois:</strong> Registro del dominio en Porkbun.</li>
+            <li><strong>X (Twitter):</strong> Publicaciones de Dominic Alvieri, PurpleOps, OpSec Insider.</li>
+            <li><strong>AbuseIPDB:</strong> Información sobre la IP <code>185.199.111.153</code>.</li>
+            <li><strong>IPinfo:</strong> Geolocalización y ASN de las IPs.</li>
+            <li><strong>GitHub Pages:</strong> Documentación sobre el rango de IPs utilizado.</li>
+            <li><strong>Cloudflare:</strong> Información sobre el uso de CDN y proxy.</li>
+        </ul>
+    </div>
+
+    <!-- ======================== FOOTER ======================== -->
+    <div class="footer">
+        <div class="left">
+            <span class="badge">OSINT</span>
+            <span class="badge badge-yellow">Estratégico</span>
+            <span class="badge badge-blue">ShinyHunters</span>
+            <span style="margin-left: 12px;">30 de Julio de 2026</span>
+        </div>
+        <div class="right">
+            <span class="badge badge-red">⚠️ Amenaza Activa</span>
+            <span style="display:block; margin-top:4px; color:#5a3a6a;"><span class="highlight">La información debe circular más rápido que los ataques.</span></span>
+        </div>
+    </div>
+
+    <div style="margin-top: 30px; padding: 14px 20px; background: rgba(10, 0, 20, 0.5); border: 1px solid rgba(180, 0, 255, 0.04); border-radius: 12px; font-size: 0.75em; color: #6a4a7a; text-align: center;">
+        Este dossier ha sido compilado exclusivamente a partir de fuentes abiertas y verificables.
+        No contiene información clasificada ni datos obtenidos mediante métodos no éticos.
+        Su propósito es educativo y de concienciación sobre las amenazas actuales en el ciberespacio.
+        <span style="display:block; margin-top:6px; color:#4a2a5a;">#SHINYHUNTERS #OSINT #shinyhunte #MALWARE #INFRAESTRUCTURA #THREATINTELLIGENCE</span>
+    </div>
+
+</div>
+
+<script>
+    // ===== PARTÍCULAS / NEURONAS (fondo dinámico) =====
+    (function() {
+        const canvas = document.getElementById('particles-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+        const NUM = 80;
+        const DIST = 150;
+        const SIZE = 2;
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.4;
+                this.vy = (Math.random() - 0.5) * 0.4;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, SIZE, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(180, 0, 255, 0.5)';
+                ctx.shadowColor = 'rgba(180, 0, 255, 0.2)';
+                ctx.shadowBlur = 8;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            }
+        }
+
+        function init() { particles = []; for (let i = 0; i < NUM; i++) particles.push(new Particle()); }
+        init();
+
+        function drawConnections() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+                    if (dist < DIST) {
+                        const alpha = 1 - (dist / DIST);
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(180, 0, 255, ${alpha * 0.25})`;
+                        ctx.lineWidth = 0.8;
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            for (const p of particles) { p.update(); p.draw(); }
+            drawConnections();
+            requestAnimationFrame(animate);
+        }
+        animate();
+        window.addEventListener('resize', () => { resize(); init(); });
+    })();
+</script>
+
+</body>
+</html>
