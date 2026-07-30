@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "Si usas este repositorio para tu investigación, por favor cítalo como:"
+authors:
+  - family-names: "Condor2026"
+title: "SHINYHUNTERS · shinyhunte.red · INFRAESTRUCTURA CRÍTICA"
+version: 1.0
+date-released: 2026-07-30
+license: CC-BY-NC-4.0
+repository-code: "https://github.com/Condor2026/Analisis_Shinyhunte.red"
