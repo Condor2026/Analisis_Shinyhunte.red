@@ -1,5 +1,10 @@
 
 # Análisis CTI: shinyhunte.red - Infraestructura oficial del grupo ShinyHunters (2026)
+
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=28&duration=3000&pause=500&color=00BFFF&center=true&vCenter=true&width=750&lines=Condor2026+|+ShinyHunters;KromSec+|+SLSH+|+RaaS;Tracking+Sp1d3r+|+Dark+Web+OSINT;Andr%C3%B3meda+%5BPrivate%5D;Nebula+%5BPublic%5D" alt="Typing SVG" />
+</p>
+
 ![Condor2026](ShinyHunter.png)
 > **Tipo de informe:** Investigación OSINT sobre dominio malicioso activo  
 > **Fecha:** 9 Junio 2026  
